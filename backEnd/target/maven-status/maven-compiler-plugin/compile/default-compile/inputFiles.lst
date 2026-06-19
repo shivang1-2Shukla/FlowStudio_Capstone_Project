@@ -1,7 +1,18 @@
-D:\FlowStudio\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\config\PasswordConfig.java
-D:\FlowStudio\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\controller\UserController.java
-D:\FlowStudio\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\dto\LoginRequest.java
-D:\FlowStudio\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\model\User.java
-D:\FlowStudio\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\repository\UserRepository.java
-D:\FlowStudio\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\SandboxproApplication.java
-D:\FlowStudio\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\service\UserService.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\config\PasswordConfig.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\controller\AuthController.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\controller\ProfileController.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\controller\UserController.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\dto\request\LoginRequest.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\dto\request\RegisterRequest.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\dto\request\UpdateProfileRequest.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\dto\request\UpdateUserRequest.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\dto\response\AuthResponse.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\dto\response\UserProfileResponse.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\dto\response\UserResponse.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\entity\Role.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\entity\User.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\entity\UserProfile.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\repository\UserProfileRepository.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\repository\UserRepository.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\SandboxproApplication.java
+C:\Users\Ansh Gupta\FlowStudio_Capstone_Project\backEnd\src\main\java\com\myanatomy\sandboxpro\service\UserService.java

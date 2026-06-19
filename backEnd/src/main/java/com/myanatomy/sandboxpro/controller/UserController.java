@@ -1,12 +1,12 @@
 package com.myanatomy.sandboxpro.controller;
 
-import com.myanatomy.sandboxpro.dto.LoginRequest;
-import com.myanatomy.sandboxpro.model.User;
+import com.myanatomy.sandboxpro.dto.request.UpdateUserRequest;
+import com.myanatomy.sandboxpro.dto.response.UserResponse;
 import com.myanatomy.sandboxpro.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
-import java.util.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -14,14 +14,9 @@ import java.util.*;
 public class UserController {
 
     private final UserService userService;
-    public UserController(UserService userService){
+
+    public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-
-    @PostMapping("/register")
-    public User register(@Valid @RequestBody User user){
-        return userService.registerUser(user);
     }
 
     @GetMapping("/test")
@@ -30,30 +25,22 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers(){
+    public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/login")
-    public User login(@RequestBody LoginRequest loginRequest) {
-
-        return userService.login(
-                loginRequest.getEmail(),
-                loginRequest.getPassword()
-        );
-    }
-
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id){
+    public UserResponse getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
     @PutMapping("/{id}")
-    public User updateUser(
+    public UserResponse updateUser(
             @PathVariable Long id,
-            @RequestBody User user
+            @Valid @RequestBody UpdateUserRequest request
     ) {
-        return userService.updateUser(id, user);
+        return userService.updateUser(id, request);
     }
-
 }
+
+

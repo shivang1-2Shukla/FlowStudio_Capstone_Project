@@ -1,6 +1,6 @@
 package com.myanatomy.sandboxpro.repository;
 
-import com.myanatomy.sandboxpro.model.User;
+import com.myanatomy.sandboxpro.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
