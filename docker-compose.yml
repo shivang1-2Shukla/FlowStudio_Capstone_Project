@@ -1,0 +1,63 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: flowstudio
+      POSTGRES_USER: flowstudio
+      POSTGRES_PASSWORD: flowstudio_password
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flowstudio -d flowstudio"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    restart: unless-stopped
+    build:
+      context: ./backEnd
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/flowstudio
+      SPRING_DATASOURCE_USERNAME: flowstudio
+      SPRING_DATASOURCE_PASSWORD: flowstudio_password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+      SPRING_JPA_SHOW_SQL: "false"
+      SPRING_DEVTOOLS_RESTART_ENABLED: "false"
+
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
+      APP_JWT_EXPIRATION_MS: ${APP_JWT_EXPIRATION_MS:-86400000}
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+
+  frontend:
+    restart: unless-stopped
+    build:
+      context: ./frontEnd
+
+    depends_on:
+      - backend
+
+    ports:
+      - "${FRONTEND_PORT:-5173}:80"
+
+volumes:
+  postgres_data:

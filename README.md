@@ -182,6 +182,20 @@ Client JSON Response ↞── [Response DTO] ↞──────────�
 
 ## 6. How to Build & Run locally
 
+### Recommended: Docker Compose (persistent MySQL)
+
+1. Install Docker Desktop and start it.
+2. Copy `.env.example` to `.env` and replace the password and JWT-secret values. The JWT secret must be at least 32 characters long.
+3. From this project directory, run:
+   ```bash
+   docker compose up --build
+   ```
+4. Open `http://localhost:5173`. The API is also available at `http://localhost:8080` for development/debugging.
+
+The MySQL data is stored in the Docker `mysql_data` volume, so it remains when containers are stopped. To stop the stack, use `docker compose down`. Do not use `docker compose down -v` unless you intentionally want to erase local database data.
+
+The frontend container proxies `/api` requests to the backend container, so no browser-side API URL configuration is needed.
+
 ### Requirements:
 1.  **JDK 17**
 2.  **Maven**
