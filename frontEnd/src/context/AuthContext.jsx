@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { auth, googleProvider, signInWithPopup } from '../firebase';
 
 const AuthContext = createContext(null);
 
@@ -118,19 +119,40 @@ export const AuthProvider = ({ children }) => {
   const loginWithGoogle = async (selectedRole = 'ACTOR', userEmail = '', userName = '') => {
     setLoading(true);
     try {
-      // Determine user name and email from input or prompt default
-      const finalEmail = userEmail.trim() || 'user.google@flowstudio.com';
-      const finalName = userName.trim() || (userEmail ? userEmail.split('@')[0] : 'Google User');
+      let googleUser;
+      let googleToken;
 
-      const googleUser = {
-        id: Date.now(),
-        name: finalName,
-        email: finalEmail,
-        role: selectedRole,
-        provider: 'GOOGLE',
-        avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(finalEmail)}`
-      };
-      const googleToken = `google_jwt_${Date.now()}`;
+      try {
+        // Attempt Firebase Google Auth popup
+        const result = await signInWithPopup(auth, googleProvider);
+        const fbUser = result.user;
+        const idToken = await fbUser.getIdToken();
+
+        googleUser = {
+          id: fbUser.uid,
+          name: fbUser.displayName || userName || fbUser.email.split('@')[0],
+          email: fbUser.email,
+          role: selectedRole,
+          provider: 'GOOGLE_FIREBASE',
+          avatarUrl: fbUser.photoURL || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(fbUser.email)}`
+        };
+        googleToken = idToken;
+      } catch (fbErr) {
+        console.warn('Firebase Auth popup error or demo mode fallback:', fbErr);
+        // Fallback to entered details if popup is blocked or demo keys are in use
+        const finalEmail = userEmail.trim() || 'user.google@flowstudio.com';
+        const finalName = userName.trim() || (userEmail ? userEmail.split('@')[0] : 'Google User');
+
+        googleUser = {
+          id: Date.now(),
+          name: finalName,
+          email: finalEmail,
+          role: selectedRole,
+          provider: 'GOOGLE',
+          avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(finalEmail)}`
+        };
+        googleToken = `google_jwt_${Date.now()}`;
+      }
 
       setUser(googleUser);
       setToken(googleToken);
