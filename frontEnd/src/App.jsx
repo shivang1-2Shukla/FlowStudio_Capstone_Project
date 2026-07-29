@@ -4,6 +4,7 @@ import AuthModal from './components/AuthModal';
 import UserProfileModal from './components/UserProfileModal';
 import NotificationsModal from './components/film/NotificationsModal';
 import LandingPage from './components/LandingPage';
+import Dashboard from './components/Dashboard';
 import TalentDirectory from './components/film/TalentDirectory';
 import FilmProjectsHub from './components/film/FilmProjectsHub';
 import CreativeStudio from './components/film/CreativeStudio';
@@ -94,6 +95,7 @@ export default function App() {
         onOpenAuth={() => setIsAuthOpen(true)}
         onOpenProfile={() => setIsProfileOpen(true)}
         onOpenNotifications={() => setIsNotificationsOpen(true)}
+        onOpenProjects={() => setIsProjectsOpen(true)}
       />
 
       {/* Main View Router */}
@@ -103,6 +105,14 @@ export default function App() {
             <LandingPage
               onNavigate={setActiveNav}
               onOpenAuth={() => setIsAuthOpen(true)}
+            />
+          )}
+
+          {activeNav === 'dashboard' && (
+            <Dashboard
+              onNavigate={setActiveNav}
+              onOpenProfile={() => setIsProfileOpen(true)}
+              onOpenProjects={() => setIsProjectsOpen(true)}
             />
           )}
 
@@ -131,7 +141,7 @@ export default function App() {
       </main>
 
       {/* Modals & Sidebar Drawers */}
-      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} onNavigate={setActiveNav} />
       <UserProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
       <NotificationsModal isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
       <MessagingDrawer

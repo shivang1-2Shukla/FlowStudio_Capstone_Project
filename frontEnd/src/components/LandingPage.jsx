@@ -88,7 +88,7 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
             {/* CTAs */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', alignItems: 'center' }}>
               <button
-                onClick={() => onAction('directory')}
+                onClick={() => handleAction('talent')}
                 className="btn btn-gold"
                 style={{ padding: '14px 28px', fontSize: '15px', borderRadius: '10px' }}
               >

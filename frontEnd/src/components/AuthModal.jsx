@@ -2,21 +2,9 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { X, Lock, Mail, User, AlertCircle, Briefcase } from 'lucide-react';
 
-export default function AuthModal({ isOpen, onClose }) {
+export default function AuthModal({ isOpen, onClose, onNavigate }) {
   const { login, register, loginWithGoogle } = useAuth();
 
-  const handleGoogleSignIn = async () => {
-    setError('');
-    setSubmitting(true);
-    try {
-      await loginWithGoogle(role, email, name);
-      onClose();
-    } catch (err) {
-      setError(err.message || 'Google Authentication failed');
-    } finally {
-      setSubmitting(false);
-    }
-  };
   const [isRegister, setIsRegister] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -24,6 +12,20 @@ export default function AuthModal({ isOpen, onClose }) {
   const [role, setRole] = useState('ACTOR');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  const handleGoogleSignIn = async () => {
+    setError('');
+    setSubmitting(true);
+    try {
+      await loginWithGoogle(role, email, name);
+      onClose();
+      onNavigate?.('dashboard');
+    } catch (err) {
+      setError(err.message || 'Google Authentication failed');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -50,6 +52,7 @@ export default function AuthModal({ isOpen, onClose }) {
         await login(email, password);
       }
       onClose();
+      onNavigate?.('dashboard');
     } catch (err) {
       setError(err.message || 'Authentication failed');
     } finally {

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Film, Clapperboard, Users, FileText, User, LogOut, Bell, Search, Sparkles, Home } from 'lucide-react';
+import { Film, Clapperboard, Users, FileText, User, LogOut, Bell, Folder, Sparkles, Home, LayoutDashboard } from 'lucide-react';
 
 export default function Navbar({
   activeNav,
   onNavChange,
   onOpenAuth,
   onOpenProfile,
-  onOpenNotifications
+  onOpenNotifications,
+  onOpenProjects
 }) {
   const { user, logout } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -77,6 +78,28 @@ export default function Navbar({
             <Home size={16} />
             <span>Home</span>
           </button>
+
+          {user && (
+            <button
+              onClick={() => onNavChange('dashboard')}
+              style={{
+                background: activeNav === 'dashboard' ? 'rgba(79, 70, 229, 0.08)' : 'transparent',
+                border: 'none',
+                color: activeNav === 'dashboard' ? 'var(--accent-primary)' : '#334155',
+                padding: '8px 16px',
+                borderRadius: 'var(--radius-md)',
+                fontSize: '13.5px',
+                fontWeight: activeNav === 'dashboard' ? '800' : '700',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <LayoutDashboard size={16} />
+              <span>Dashboard</span>
+            </button>
+          )}
           <button
             onClick={() => onNavChange('talent')}
             style={{
@@ -227,6 +250,27 @@ export default function Navbar({
                 >
                   <User size={15} color="var(--accent-primary)" />
                   <span>My Profile & Portfolios</span>
+                </button>
+
+                <button
+                  onClick={() => { setShowUserMenu(false); onOpenProjects(); }}
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#0f172a',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '13.5px',
+                    fontWeight: '700'
+                  }}
+                >
+                  <Folder size={15} color="var(--accent-primary)" />
+                  <span>My Workspace Projects</span>
                 </button>
 
                 <div style={{ height: '1px', background: 'var(--border-color)', margin: '6px 0' }} />
