@@ -9,13 +9,16 @@ import com.myanatomy.sandboxpro.dto.response.UserResponse;
 import com.myanatomy.sandboxpro.dto.response.UserProfileResponse;
 import com.myanatomy.sandboxpro.entity.User;
 import com.myanatomy.sandboxpro.entity.UserProfile;
+import com.myanatomy.sandboxpro.exception.BadRequestException;
+import com.myanatomy.sandboxpro.exception.ResourceNotFoundException;
+import com.myanatomy.sandboxpro.exception.UnauthorizedException;
 import com.myanatomy.sandboxpro.repository.UserRepository;
 import com.myanatomy.sandboxpro.repository.UserProfileRepository;
+import com.myanatomy.sandboxpro.security.JwtTokenProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,20 +27,23 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserProfileRepository userProfileRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider tokenProvider;
 
     public UserService(
             UserRepository userRepository,
             UserProfileRepository userProfileRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            JwtTokenProvider tokenProvider
     ) {
         this.userRepository = userRepository;
         this.userProfileRepository = userProfileRepository;
         this.passwordEncoder = passwordEncoder;
+        this.tokenProvider = tokenProvider;
     }
 
     public UserResponse registerUser(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
+            throw new BadRequestException("Email already exists: " + request.getEmail());
         }
 
         User user = new User();
@@ -62,24 +68,26 @@ public class UserService {
     }
 
     public AuthResponse login(LoginRequest request) {
-        Optional<User> user = userRepository.findByEmail(request.getEmail());
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UnauthorizedException("Invalid email or password"));
 
-        if (user.isPresent() && passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
-            return new AuthResponse(null, UserResponse.fromEntity(user.get()));
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new UnauthorizedException("Invalid email or password");
         }
 
-        return null;
+        String token = tokenProvider.generateToken(user.getId(), user.getEmail(), user.getRole().name());
+        return new AuthResponse(token, UserResponse.fromEntity(user));
     }
 
     public UserResponse getUserById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
         return UserResponse.fromEntity(user);
     }
 
     public UserResponse updateUser(Long id, UpdateUserRequest request) {
         User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 
         existingUser.setName(request.getName());
         existingUser.setRole(request.getRole());
@@ -90,13 +98,13 @@ public class UserService {
 
     public UserProfileResponse getUserProfile(Long userId) {
         UserProfile profile = userProfileRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profile not found for userId: " + userId));
         return UserProfileResponse.fromEntity(profile);
     }
 
     public UserProfileResponse updateUserProfile(Long userId, UpdateProfileRequest request) {
         UserProfile existingProfile = userProfileRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profile not found for userId: " + userId));
 
         existingProfile.setBio(request.getBio());
         existingProfile.setSkills(request.getSkills());
@@ -109,4 +117,3 @@ public class UserService {
         return UserProfileResponse.fromEntity(savedProfile);
     }
 }
-

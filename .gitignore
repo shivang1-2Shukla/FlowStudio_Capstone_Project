@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+frontEnd/node_modules/
+
+# Maven build outputs
+target/
+**/target/
+backEnd/target/
+
+# Production build outputs
+dist/
+frontEnd/dist/
+
+# IDE & Editor folders
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
