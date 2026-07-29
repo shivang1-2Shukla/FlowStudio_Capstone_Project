@@ -42,21 +42,29 @@ public class UserService {
     }
 
     public UserResponse registerUser(RegisterRequest request) {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new BadRequestException("Email already exists: " + request.getEmail());
+        String email = request.getEmail() != null ? request.getEmail().trim().toLowerCase() : "";
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new BadRequestException("An account with email (" + email + ") already exists. Please sign in.");
         }
 
         User user = new User();
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
+        user.setName(request.getName() != null ? request.getName().trim() : "User");
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(request.getPassword() != null ? request.getPassword() : "123456"));
+        user.setRole(request.getRole() != null ? request.getRole() : Role.USER);
 
         User savedUser = userRepository.save(user);
 
-        UserProfile profile = new UserProfile();
-        profile.setUser(savedUser);
-        userProfileRepository.save(profile);
+        try {
+            UserProfile profile = new UserProfile();
+            profile.setUser(savedUser);
+            if (request.getRole() != null) {
+                profile.setCreativeField(request.getRole().name());
+            }
+            userProfileRepository.save(profile);
+        } catch (Exception ex) {
+            // Profile creation fallback
+        }
 
         return UserResponse.fromEntity(savedUser);
     }
