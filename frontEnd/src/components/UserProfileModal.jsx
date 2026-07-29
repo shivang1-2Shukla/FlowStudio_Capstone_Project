@@ -98,11 +98,11 @@ export default function UserProfileModal({ isOpen, onClose }) {
               {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
             </div>
             <div>
-              <h2 style={{ fontSize: '19px', fontWeight: '800', color: '#0f172a' }}>{user.name}</h2>
-              <p style={{ fontSize: '12.5px', color: '#334155', fontWeight: '600' }}>{user.email} • Role: <strong>{user.role || 'ACTOR'}</strong></p>
+              <h2 style={{ fontSize: '19px', fontWeight: '800', color: '#ffffff' }}>{user.name}</h2>
+              <p style={{ fontSize: '12.5px', color: '#94a3b8', fontWeight: '600' }}>{user.email} • Role: <strong style={{ color: '#818cf8' }}>{user.role || 'ACTOR'}</strong></p>
             </div>
           </div>
-          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: '#334155', cursor: 'pointer' }}>
+          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
             <X size={20} />
           </button>
         </div>

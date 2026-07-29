@@ -76,14 +76,19 @@ public class UserService {
     }
 
     public AuthResponse login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UnauthorizedException("Invalid email or password"));
+        String cleanEmail = request.getEmail() != null ? request.getEmail().trim().toLowerCase() : "";
+        User user = userRepository.findByEmail(cleanEmail)
+                .orElseGet(() -> userRepository.findAll().stream()
+                        .filter(u -> u.getEmail() != null && u.getEmail().equalsIgnoreCase(cleanEmail))
+                        .findFirst()
+                        .orElseThrow(() -> new UnauthorizedException("Invalid email or password")));
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        if (request.getPassword() == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new UnauthorizedException("Invalid email or password");
         }
 
-        String token = tokenProvider.generateToken(user.getId(), user.getEmail(), user.getRole().name());
+        Role userRole = user.getRole() != null ? user.getRole() : Role.USER;
+        String token = tokenProvider.generateToken(user.getId(), user.getEmail(), userRole.name());
         return new AuthResponse(token, UserResponse.fromEntity(user));
     }
 
