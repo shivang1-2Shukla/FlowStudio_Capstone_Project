@@ -156,31 +156,16 @@ export const AuthProvider = ({ children }) => {
           errCode.includes('internal-error') ||
           errCode.includes('unauthorized-domain')
         ) {
-          let targetEmail = userEmail.trim();
-          let targetName = userName.trim();
-
-          if (!targetEmail) {
-            const promptedEmail = window.prompt(
-              "Notice: Real Firebase keys are not configured yet. Enter your Google email to sign in:",
-              "viditgoel39@gmail.com"
-            );
-            if (!promptedEmail) {
-              throw new Error("Google Sign-In canceled.");
-            }
-            targetEmail = promptedEmail.trim();
-          }
-
-          if (!targetName) {
-            targetName = targetEmail.split('@')[0];
-          }
+          const finalEmail = userEmail.trim() || 'viditgoel39@gmail.com';
+          const finalName = userName.trim() || (userEmail ? userEmail.split('@')[0] : 'Vidit');
 
           googleUser = {
             id: Date.now(),
-            name: targetName,
-            email: targetEmail,
+            name: finalName,
+            email: finalEmail,
             role: selectedRole,
             provider: 'GOOGLE_SIMULATED',
-            avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(targetEmail)}`
+            avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(finalEmail)}`
           };
           googleToken = `google_jwt_${Date.now()}`;
         } else {
