@@ -138,20 +138,50 @@ export const AuthProvider = ({ children }) => {
         };
         googleToken = idToken;
       } catch (fbErr) {
-        console.warn('Firebase Auth popup error or demo mode fallback:', fbErr);
-        // Fallback to entered details if popup is blocked or demo keys are in use
-        const finalEmail = userEmail.trim() || 'user.google@flowstudio.com';
-        const finalName = userName.trim() || (userEmail ? userEmail.split('@')[0] : 'Google User');
+        console.error('Firebase Auth Error:', fbErr);
 
-        googleUser = {
-          id: Date.now(),
-          name: finalName,
-          email: finalEmail,
-          role: selectedRole,
-          provider: 'GOOGLE',
-          avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(finalEmail)}`
-        };
-        googleToken = `google_jwt_${Date.now()}`;
+        // If user cancelled the popup intentionally:
+        if (fbErr.code === 'auth/popup-closed-by-user') {
+          throw new Error('Google sign-in popup was closed.');
+        }
+
+        // If Firebase API key is unconfigured / demo or invalid domain:
+        if (
+          fbErr.code === 'auth/invalid-api-key' ||
+          fbErr.code === 'auth/internal-error' ||
+          fbErr.code === 'auth/unauthorized-domain' ||
+          fbErr.message?.includes('API key')
+        ) {
+          let targetEmail = userEmail.trim();
+          let targetName = userName.trim();
+
+          if (!targetEmail) {
+            const promptedEmail = window.prompt(
+              "Notice: Using demo Firebase keys. Enter your Google email to sign in:",
+              "viditgoel39@gmail.com"
+            );
+            if (!promptedEmail) {
+              throw new Error("Google Sign-In canceled.");
+            }
+            targetEmail = promptedEmail.trim();
+          }
+
+          if (!targetName) {
+            targetName = targetEmail.split('@')[0];
+          }
+
+          googleUser = {
+            id: Date.now(),
+            name: targetName,
+            email: targetEmail,
+            role: selectedRole,
+            provider: 'GOOGLE_SIMULATED',
+            avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(targetEmail)}`
+          };
+          googleToken = `google_jwt_${Date.now()}`;
+        } else {
+          throw new Error(fbErr.message || 'Firebase Google Sign-In failed');
+        }
       }
 
       setUser(googleUser);
