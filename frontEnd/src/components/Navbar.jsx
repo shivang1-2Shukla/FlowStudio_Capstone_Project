@@ -45,10 +45,10 @@ export default function Navbar({
             <Film size={22} color="#ffffff" />
           </div>
           <div>
-            <span style={{ fontWeight: '800', fontSize: '20px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+            <span style={{ fontWeight: '800', fontSize: '20px', letterSpacing: '-0.5px', color: '#0f172a' }}>
               Flow<span style={{ color: 'var(--accent-primary)' }}>Studio</span>
             </span>
-            <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', marginTop: '-2px' }}>
+            <div style={{ fontSize: '10px', color: '#475569', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.8px', marginTop: '-2px' }}>
               Entertainment Platform
             </div>
           </div>
@@ -63,11 +63,11 @@ export default function Navbar({
             style={{
               background: activeNav === 'landing' ? 'rgba(79, 70, 229, 0.08)' : 'transparent',
               border: 'none',
-              color: activeNav === 'landing' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+              color: activeNav === 'landing' ? 'var(--accent-primary)' : '#334155',
               padding: '8px 16px',
               borderRadius: 'var(--radius-md)',
               fontSize: '13.5px',
-              fontWeight: activeNav === 'landing' ? '700' : '600',
+              fontWeight: activeNav === 'landing' ? '800' : '700',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -82,11 +82,11 @@ export default function Navbar({
             style={{
               background: activeNav === 'talent' ? 'rgba(79, 70, 229, 0.08)' : 'transparent',
               border: 'none',
-              color: activeNav === 'talent' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+              color: activeNav === 'talent' ? 'var(--accent-primary)' : '#334155',
               padding: '8px 16px',
               borderRadius: 'var(--radius-md)',
               fontSize: '13.5px',
-              fontWeight: activeNav === 'talent' ? '700' : '600',
+              fontWeight: activeNav === 'talent' ? '800' : '700',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -102,11 +102,11 @@ export default function Navbar({
             style={{
               background: activeNav === 'projects' ? 'rgba(79, 70, 229, 0.08)' : 'transparent',
               border: 'none',
-              color: activeNav === 'projects' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+              color: activeNav === 'projects' ? 'var(--accent-primary)' : '#334155',
               padding: '8px 16px',
               borderRadius: 'var(--radius-md)',
               fontSize: '13.5px',
-              fontWeight: activeNav === 'projects' ? '700' : '600',
+              fontWeight: activeNav === 'projects' ? '800' : '700',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -122,11 +122,11 @@ export default function Navbar({
             style={{
               background: activeNav === 'studio' ? 'rgba(79, 70, 229, 0.08)' : 'transparent',
               border: 'none',
-              color: activeNav === 'studio' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+              color: activeNav === 'studio' ? 'var(--accent-primary)' : '#334155',
               padding: '8px 16px',
               borderRadius: 'var(--radius-md)',
               fontSize: '13.5px',
-              fontWeight: activeNav === 'studio' ? '700' : '600',
+              fontWeight: activeNav === 'studio' ? '800' : '700',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -155,7 +155,7 @@ export default function Navbar({
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            color: 'var(--text-secondary)'
+            color: '#334155'
           }}
         >
           <Bell size={18} />
@@ -176,7 +176,7 @@ export default function Navbar({
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
               className="btn btn-secondary"
-              style={{ borderRadius: 'var(--radius-full)', padding: '4px 14px 4px 5px' }}
+              style={{ borderRadius: 'var(--radius-full)', padding: '4px 14px 4px 5px', color: '#0f172a' }}
             >
               <div style={{
                 width: '32px',
@@ -192,7 +192,7 @@ export default function Navbar({
               }}>
                 {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
               </div>
-              <span style={{ fontSize: '13.5px', fontWeight: '700', color: 'var(--text-primary)' }}>{user.name}</span>
+              <span style={{ fontSize: '13.5px', fontWeight: '800', color: '#0f172a' }}>{user.name}</span>
             </button>
 
             {showUserMenu && (
@@ -215,14 +215,14 @@ export default function Navbar({
                     padding: '10px 12px',
                     background: 'transparent',
                     border: 'none',
-                    color: 'var(--text-primary)',
+                    color: '#0f172a',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '10px',
                     borderRadius: '6px',
                     cursor: 'pointer',
-                    fontSize: '13px',
-                    fontWeight: '600'
+                    fontSize: '13.5px',
+                    fontWeight: '700'
                   }}
                 >
                   <User size={15} color="var(--accent-primary)" />
@@ -244,8 +244,8 @@ export default function Navbar({
                     gap: '10px',
                     borderRadius: '6px',
                     cursor: 'pointer',
-                    fontSize: '13px',
-                    fontWeight: '600'
+                    fontSize: '13.5px',
+                    fontWeight: '700'
                   }}
                 >
                   <LogOut size={15} />
