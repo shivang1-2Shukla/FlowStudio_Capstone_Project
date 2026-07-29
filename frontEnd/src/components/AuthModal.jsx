@@ -9,7 +9,7 @@ export default function AuthModal({ isOpen, onClose }) {
     setError('');
     setSubmitting(true);
     try {
-      await loginWithGoogle(role);
+      await loginWithGoogle(role, email, name);
       onClose();
     } catch (err) {
       setError(err.message || 'Google Authentication failed');
