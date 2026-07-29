@@ -140,24 +140,28 @@ export const AuthProvider = ({ children }) => {
       } catch (fbErr) {
         console.error('Firebase Auth Error:', fbErr);
 
+        const errCode = (fbErr.code || '').toLowerCase();
+        const errMessage = (fbErr.message || '').toLowerCase();
+
         // If user cancelled the popup intentionally:
-        if (fbErr.code === 'auth/popup-closed-by-user') {
+        if (errCode === 'auth/popup-closed-by-user') {
           throw new Error('Google sign-in popup was closed.');
         }
 
-        // If Firebase API key is unconfigured / demo or invalid domain:
+        // If Firebase API key is unconfigured / demo or invalid:
         if (
-          fbErr.code === 'auth/invalid-api-key' ||
-          fbErr.code === 'auth/internal-error' ||
-          fbErr.code === 'auth/unauthorized-domain' ||
-          fbErr.message?.includes('API key')
+          errCode.includes('api-key') ||
+          errMessage.includes('api-key') ||
+          errCode.includes('invalid') ||
+          errCode.includes('internal-error') ||
+          errCode.includes('unauthorized-domain')
         ) {
           let targetEmail = userEmail.trim();
           let targetName = userName.trim();
 
           if (!targetEmail) {
             const promptedEmail = window.prompt(
-              "Notice: Using demo Firebase keys. Enter your Google email to sign in:",
+              "Notice: Real Firebase keys are not configured yet. Enter your Google email to sign in:",
               "viditgoel39@gmail.com"
             );
             if (!promptedEmail) {
