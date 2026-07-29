@@ -2,8 +2,32 @@ import React from 'react';
 import { Film, Users, Clapperboard, FileText, ArrowRight, ShieldCheck, Sparkles, CheckCircle2, Star, PlayCircle, Globe, Video, Music, Camera } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
+import { motion } from "framer-motion";
+
 export default function LandingPage({ onNavigate, onOpenAuth }) {
   const { user, loginWithGoogle } = useAuth();
+  const fadeUp = {
+  hidden: {
+    opacity: 0,
+    y: 30
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      ease: [0.25, 0.46, 0.45, 0.94]
+    }
+  }
+};
+
+const stagger = {
+  visible: {
+    transition: {
+      staggerChildren: 0.12
+    }
+  }
+};
 
   const handleGoogleClick = async () => {
     if (user) {
@@ -36,7 +60,11 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
   ];
 
   return (
-    <div style={{ overflowY: 'auto', height: '100%', background: '#f8fafc', color: '#0f172a' }}>
+    <motion.div
+    variants={stagger}
+    initial="hidden"
+    animate="visible"
+ style={{ overflowY: 'auto', height: '100%', background: '#f8fafc', color: '#0f172a' }}>
       {/* Hero Section */}
       <section style={{
         background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%)',
@@ -45,7 +73,33 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '48px', alignItems: 'center' }}>
+
+        <div
+style={{
+position:"absolute",
+width:420,
+height:420,
+borderRadius:"50%",
+background:"rgba(99,102,241,.15)",
+filter:"blur(100px)",
+top:-120,
+right:-120
+}}
+/>
+
+<div
+style={{
+position:"absolute",
+width:280,
+height:280,
+borderRadius:"50%",
+background:"rgba(168,85,247,.12)",
+bottom:-80,
+left:-80,
+filter:"blur(90px)"
+}}
+/>
+        <motion.div variants={fadeUp} style={{ maxWidth: '1280px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '48px', alignItems: 'center' }}>
           <div>
             <div style={{
               display: 'inline-flex',
@@ -128,11 +182,15 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
           </div>
 
           {/* Hero Banner Image Graphic */}
-          <div style={{ position: 'relative' }}>
+          <div className="hover-lift" style={{ position: 'relative' }}>
             <div style={{
               borderRadius: '20px',
               overflow: 'hidden',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+              boxShadow:
+              '0 30px 80px rgba(0,0,0,.35)',
+
+              transition:
+              'all .35s ease',
               border: '1px solid rgba(255, 255, 255, 0.15)'
             }}>
               <img
@@ -142,12 +200,12 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
               />
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Stats Bar */}
       <section style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '24px 32px' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', textAlign: 'center' }}>
+        <motion.div variants={fadeUp} whileHover={{ y:-8 }} whileTap={{ y:0 }} transition={{ duration:.25}} style={{ maxWidth: '1280px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', textAlign: 'center' }}>
           <div>
             <div style={{ fontSize: '28px', fontWeight: '900', color: '#4f46e5' }}>10,000+</div>
             <div style={{ fontSize: '13px', color: '#475569', fontWeight: '700' }}>Verified Creative Talent</div>
@@ -164,12 +222,12 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
             <div style={{ fontSize: '28px', fontWeight: '900', color: '#db2777' }}>$4.2M+</div>
             <div style={{ fontSize: '13px', color: '#475569', fontWeight: '700' }}>Production Budgets Posted</div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Industry Roles Showcase Section */}
       <section style={{ padding: '72px 32px', maxWidth: '1280px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '52px' }}>
+        <motion.div variants={fadeUp} style={{ textAlign: 'center', marginBottom: '52px' }}>
           <div style={{ fontSize: '13px', fontWeight: '800', color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
             Built For All 7 Entertainment Roles
           </div>
@@ -179,26 +237,32 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
           <p style={{ color: '#475569', fontSize: '16px', maxWidth: '640px', margin: '12px auto 0 auto', fontWeight: '500' }}>
             Whether you are an actor uploading showreels, a composer sharing film scores, or a director casting a feature, FlowStudio fits your workflow.
           </p>
-        </div>
+        </motion.div>
 
         {/* Roles Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '24px', marginBottom: '48px' }}>
+        <motion.div variants={stagger} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '24px', marginBottom: '48px' }}>
           {rolesList.map((r, i) => {
             const IconComponent = r.icon;
             return (
-              <div key={i} className="glass-card" style={{ padding: '28px', background: '#ffffff', border: '1px solid #cbd5e1' }}>
+              <div key={i} className="glass-card" style={{ padding: '28px', background:"rgba(255,255,255,.96)", border:'1px solid rgba(148,163,184,.25)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                  <div style={{
+                  <motion.div
+
+                    whileHover={{
+                    rotate:6,
+                    scale:1.08
+                    }}style={{
                     width: '44px',
                     height: '44px',
                     borderRadius: '12px',
                     background: `${r.color}15`,
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    transition:'all .25s ease'
                   }}>
                     <IconComponent size={22} color={r.color} />
-                  </div>
+                  </motion.div>
 
                   <span style={{
                     fontSize: '11.5px',
@@ -207,7 +271,8 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
                     background: `${r.color}10`,
                     padding: '4px 12px',
                     borderRadius: '999px',
-                    border: `1px solid ${r.color}30`
+                    border: `1px solid ${r.color}30`,
+                    
                   }}>
                     {r.badge}
                   </span>
@@ -236,10 +301,10 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
               </div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Talent Graphic Banner */}
-        <div className="glass-card" style={{
+        <motion.div variants={fadeUp} className="glass-card" style={{
           borderRadius: '20px',
           overflow: 'hidden',
           display: 'grid',
@@ -275,12 +340,12 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Platform Features Grid */}
       <section style={{ background: '#ffffff', borderTop: '1px solid #e2e8f0', padding: '72px 32px' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+        <motion.div variants={fadeUp} style={{ maxWidth: '1280px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <h2 style={{ fontSize: '32px', fontWeight: '900', color: '#0f172a' }}>
               Everything You Need to Connect & Produce
@@ -292,7 +357,7 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '28px' }}>
             {/* Feature 1 */}
-            <div style={{ background: '#f8fafc', padding: '28px', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+            <div className="hover-lift" style={{ background:'#ffffff', padding: '28px', borderRadius: '16px', border: '1px solid #cbd5e1', boxShadow:'var(--shadow-sm)',transition:'all .25s ease' }}>
               <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(79, 70, 229, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <Users size={20} color="#4f46e5" />
               </div>
@@ -303,7 +368,7 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
             </div>
 
             {/* Feature 2 */}
-            <div style={{ background: '#f8fafc', padding: '28px', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+            <div className="hover-lift" style={{ background:'#ffffff', padding: '28px', borderRadius: '16px', border: '1px solid #cbd5e1', boxShadow:'var(--shadow-sm)',transition:'all .25s ease' }}>
               <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(217, 119, 6, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <Clapperboard size={20} color="#d97706" />
               </div>
@@ -314,7 +379,7 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
             </div>
 
             {/* Feature 3 */}
-            <div style={{ background: '#f8fafc', padding: '28px', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+            <div className="hover-lift" style={{ background:'#ffffff', padding: '28px', borderRadius: '16px', border: '1px solid #cbd5e1', boxShadow:'var(--shadow-sm)',transition:'all .25s ease' }}>
               <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(5, 150, 105, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <FileText size={20} color="#059669" />
               </div>
@@ -324,7 +389,7 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Final Call to Action */}
@@ -334,7 +399,7 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
         padding: '64px 32px',
         textAlign: 'center'
       }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+        <motion.div variants={fadeUp} style={{ maxWidth: '800px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '34px', fontWeight: '900', marginBottom: '16px', color: '#ffffff' }}>
             Ready to Join the Entertainment Industry Network?
           </h2>
@@ -342,18 +407,27 @@ export default function LandingPage({ onNavigate, onOpenAuth }) {
             Create your account in under 60 seconds with Email or Google SSO.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
-            <button
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' , transition:'all .25s ease' }}>
+            <motion.button
+
+              whileHover={{
+              scale:1.03,
+              y:-2
+              }}
+
+              whileTap={{
+              scale:.97
+              }}
               onClick={onOpenAuth}
               className="btn btn-gold"
-              style={{ padding: '14px 32px', fontSize: '15px' }}
+              style={{ padding: '14px 32px', fontSize: '15px', transition:'all .25s ease' }}
             >
               <span>Get Started Free</span>
               <ArrowRight size={18} />
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       </section>
-    </div>
+    </motion.div>
   );
 }

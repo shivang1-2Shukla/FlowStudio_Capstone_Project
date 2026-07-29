@@ -20,19 +20,22 @@ export default function Navbar({
       alignItems: 'center',
       justifyContent: 'space-between',
       borderBottom: '1px solid var(--border-color)',
-      background: '#ffffff',
-      boxShadow: 'var(--shadow-sm)',
+      background: 'rgba(255,255,255,0.82)',
+      backdropFilter: 'blur(18px)',
+      WebkitBackdropFilter: 'blur(18px)',
+      boxShadow: '0 8px 30px rgba(15,23,42,.08)',
+      transition: 'all .3s ease',
       position: 'sticky',
       top: 0,
       zIndex: 100
     }}>
       {/* Left Brand & Navigation */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
-        <div
+        <div 
           onClick={() => onNavChange('landing')}
           style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
         >
-          <div style={{
+          <div className="hover-lift" style={{
             width: '42px',
             height: '42px',
             borderRadius: '12px',
@@ -40,13 +43,14 @@ export default function Navbar({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 4px 14px rgba(79, 70, 229, 0.3)'
+            boxShadow: '0 10px 24px rgba(99,102,241,.35)',
+            transition: 'transform .25s ease, box-shadow .25s ease',
           }}>
             <Film size={22} color="#ffffff" />
           </div>
-          <div>
-            <span style={{ fontWeight: '800', fontSize: '20px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
-              Flow<span style={{ color: 'var(--accent-primary)' }}>Studio</span>
+          <div> 
+            <span style={{ fontWeight: '800', fontSize: '20px', letterSpacing: '-0.5px', color:"#1E40AF" }}>
+              Flow<span style={{ color:"#8B5CF6" }}>Studio</span>
             </span>
             <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', marginTop: '-2px' }}>
               Entertainment Platform
@@ -58,7 +62,7 @@ export default function Navbar({
 
         {/* Core Nav Links */}
         <nav style={{ display: 'flex', gap: '6px' }}>
-          <button
+          <button className="nav-item"
             onClick={() => onNavChange('landing')}
             style={{
               background: activeNav === 'landing' ? 'rgba(79, 70, 229, 0.08)' : 'transparent',
@@ -71,33 +75,41 @@ export default function Navbar({
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px'
+              gap: '8px',
+              transition: 'all .25s ease',
+              boxShadow: activeNav === 'landing'
+                ? '0 6px 16px rgba(99,102,241,.15)'
+                : 'none'
             }}
           >
             <Home size={16} />
             <span>Home</span>
           </button>
-          <button
+          <button className="nav-item"
             onClick={() => onNavChange('talent')}
             style={{
-              background: activeNav === 'talent' ? 'rgba(79, 70, 229, 0.08)' : 'transparent',
+              background: activeNav === 'projects' ? 'rgba(79, 70, 229, 0.08)' : 'transparent',
               border: 'none',
-              color: activeNav === 'talent' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+              color: activeNav === 'projects' ? 'var(--accent-primary)' : 'var(--text-secondary)',
               padding: '8px 16px',
               borderRadius: 'var(--radius-md)',
               fontSize: '13.5px',
-              fontWeight: activeNav === 'talent' ? '700' : '600',
+              fontWeight: activeNav === 'projects' ? '700' : '600',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px'
+              gap: '8px',
+              transition: 'all .25s ease',
+              boxShadow: activeNav === 'projects'
+                ? '0 6px 16px rgba(99,102,241,.15)'
+                : 'none'
             }}
           >
             <Users size={16} />
             <span>Talent Directory</span>
           </button>
 
-          <button
+          <button className="nav-item"
             onClick={() => onNavChange('projects')}
             style={{
               background: activeNav === 'projects' ? 'rgba(79, 70, 229, 0.08)' : 'transparent',
@@ -110,14 +122,18 @@ export default function Navbar({
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px'
+              gap: '8px',
+              transition: 'all .25s ease',
+              boxShadow: activeNav === 'projects'
+                ? '0 6px 16px rgba(99,102,241,.15)'
+                : 'none'
             }}
           >
             <Clapperboard size={16} />
             <span>Opportunity Board</span>
           </button>
 
-          <button
+          <button className="nav-item"
             onClick={() => onNavChange('studio')}
             style={{
               background: activeNav === 'studio' ? 'rgba(79, 70, 229, 0.08)' : 'transparent',
@@ -130,7 +146,11 @@ export default function Navbar({
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px'
+              gap: '8px',
+              transition: 'all .25s ease',
+              boxShadow: activeNav === 'studio'
+                ? '0 6px 16px rgba(99,102,241,.15)'
+                : 'none'
             }}
           >
             <FileText size={16} />
@@ -145,8 +165,8 @@ export default function Navbar({
         <button
           onClick={onOpenNotifications}
           style={{
-            position: 'relative',
-            background: 'var(--bg-tertiary)',
+            background:'rgba(255,255,255,.75)',
+            backdropFilter:'blur(12px)',
             border: '1px solid var(--border-color)',
             width: '38px',
             height: '38px',
@@ -155,7 +175,8 @@ export default function Navbar({
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            color: 'var(--text-secondary)'
+            color:'var(--accent-primary)',
+            transition:'all .25s ease',
           }}
         >
           <Bell size={18} />
@@ -165,7 +186,7 @@ export default function Navbar({
             right: '2px',
             width: '9px',
             height: '9px',
-            background: 'var(--accent-gold)',
+            background:'var(--warning)',
             borderRadius: '50%',
             border: '2px solid #ffffff'
           }} />
@@ -182,29 +203,30 @@ export default function Navbar({
                 width: '32px',
                 height: '32px',
                 borderRadius: '50%',
-                background: 'var(--accent-gradient)',
+                background:'linear-gradient(135deg,#6366F1,#8B5CF6)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontSize: '14px',
-                fontWeight: '800',
+                fontWeight: '700',
                 color: '#ffffff'
               }}>
                 {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
               </div>
-              <span style={{ fontSize: '13.5px', fontWeight: '700', color: 'var(--text-primary)' }}>{user.name}</span>
+              <span style={{ fontSize: '13.5px', fontWeight: '700', color: '#8b8392' }}>{user.name}</span>
             </button>
 
             {showUserMenu && (
-              <div style={{
+              <div className="dropdown-menu" style={{
                 position: 'absolute',
                 top: '48px',
                 right: 0,
                 width: '230px',
-                background: '#ffffff',
+                background:'rgba(255,255,255,.95)',
+                backdropFilter:'blur(18px)',
                 border: '1px solid var(--border-color)',
-                borderRadius: 'var(--radius-md)',
-                padding: '8px',
+                borderRadius: 'var(--radius-lg)',
+                padding: '10px',
                 boxShadow: 'var(--shadow-lg)',
                 zIndex: 1000
               }}>
@@ -215,7 +237,7 @@ export default function Navbar({
                     padding: '10px 12px',
                     background: 'transparent',
                     border: 'none',
-                    color: 'var(--text-primary)',
+                    color: '#8b8392',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '10px',
@@ -225,7 +247,7 @@ export default function Navbar({
                     fontWeight: '600'
                   }}
                 >
-                  <User size={15} color="var(--accent-primary)" />
+                  <User size={15} color="#A855F7" />
                   <span>My Profile & Portfolios</span>
                 </button>
 

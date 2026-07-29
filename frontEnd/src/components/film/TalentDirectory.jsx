@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Search, MapPin, Video, Music, Image as ImageIcon, Sparkles, CheckCircle2, Award } from 'lucide-react';
 
+import { motion } from "framer-motion";
+
 const SRS_TALENTS = [
   {
     id: 1,
@@ -127,7 +129,7 @@ export default function TalentDirectory({ onSelectArtist }) {
   return (
     <div style={{ padding: '32px 24px', maxWidth: '1280px', margin: '0 auto', overflowY: 'auto', height: '100%' }}>
       {/* Light Theme Hero Banner */}
-      <div className="glass-card" style={{
+      <motion.div className="glass-card" initial={{opacity:0,y:25}} animate={{opacity:1,y:0}} transition={{duration:.55}}style={{
         padding: '36px',
         marginBottom: '32px',
         background: 'linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%)',
@@ -147,20 +149,20 @@ export default function TalentDirectory({ onSelectArtist }) {
 
         {/* Stats Section */}
         <div style={{ display: 'flex', gap: '40px', marginTop: '28px', flexWrap: 'wrap' }}>
-          <div style={{ background: '#ffffff', padding: '12px 20px', borderRadius: '12px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+          <motion.div whileHover={{    y:-5, scale:1.03}} transition={{duration:.2}} style={{ background: '#ffffff', padding: '12px 20px', borderRadius: '12px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
             <div style={{ fontSize: '24px', fontWeight: '800', color: '#4f46e5' }}>12,400+</div>
             <div style={{ fontSize: '12px', color: '#475569', fontWeight: '700' }}>Verified Creators</div>
-          </div>
-          <div style={{ background: '#ffffff', padding: '12px 20px', borderRadius: '12px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+          </motion.div>
+          <motion.div whileHover={{    y:-5, scale:1.03}} transition={{duration:.2}} style={{ background: '#ffffff', padding: '12px 20px', borderRadius: '12px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
             <div style={{ fontSize: '24px', fontWeight: '800', color: '#d97706' }}>1,850+</div>
             <div style={{ fontSize: '12px', color: '#475569', fontWeight: '700' }}>Active Casting Calls</div>
-          </div>
-          <div style={{ background: '#ffffff', padding: '12px 20px', borderRadius: '12px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+          </motion.div>
+          <motion.div whileHover={{    y:-5, scale:1.03}} transition={{duration:.2}} style={{ background: '#ffffff', padding: '12px 20px', borderRadius: '12px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
             <div style={{ fontSize: '24px', fontWeight: '800', color: '#db2777' }}>950+</div>
             <div style={{ fontSize: '12px', color: '#475569', fontWeight: '700' }}>Films & Shows Produced</div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Search Bar & Role Tabs */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '28px' }}>
@@ -172,7 +174,7 @@ export default function TalentDirectory({ onSelectArtist }) {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="form-input"
-            style={{ paddingLeft: '44px', paddingRight: '16px', height: '48px', fontSize: '14.5px', borderRadius: 'var(--radius-lg)', color: '#0f172a', background: '#ffffff' }}
+            style={{ paddingLeft: '44px', paddingRight: '16px', height: '52px', fontSize: '14.5px', borderRadius: 'var(--radius-lg)', color: '#0f172a', background:'rgba(255,255,255,.95)' , boxShadow:'var(--shadow-sm)'}}
           />
         </div>
 
@@ -193,6 +195,7 @@ export default function TalentDirectory({ onSelectArtist }) {
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
                 transition: 'all 0.2s ease',
+                transform: selectedRole===r.value ?'translateY(-2px)' :'translateY(0)',
                 boxShadow: selectedRole === r.value ? '0 4px 12px rgba(79, 70, 229, 0.25)' : 'var(--shadow-sm)'
               }}
             >
@@ -205,10 +208,10 @@ export default function TalentDirectory({ onSelectArtist }) {
       {/* Talent Cards Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(370px, 1fr))', gap: '24px', marginBottom: '40px' }}>
         {filteredTalents.map(artist => (
-          <div key={artist.id} className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: '#ffffff', border: '1px solid var(--border-color)' }}>
+          <motion.div key={artist.id} layout initial={{opacity:0,y:25}} animate={{opacity:1,y:0}} whileHover={{ y:-8, transition:{duration:.2}}} className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background:"rgba(255,255,255,.96)", border:'1px solid rgba(148,163,184,.18)', boxShadow:'var(--shadow-sm)' , borderRadius:'18px' }}>
             <div>
               {/* Profile Header */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
+              <motion.div whileHover={{rotate:6,scale:1.08}} style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
                 <div style={{
                   width: '56px',
                   height: '56px',
@@ -242,7 +245,7 @@ export default function TalentDirectory({ onSelectArtist }) {
                     </span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               <p style={{ fontSize: '13.5px', color: '#334155', lineHeight: '1.5', marginBottom: '16px' }}>
                 {artist.bio}
@@ -298,7 +301,7 @@ export default function TalentDirectory({ onSelectArtist }) {
               <CheckCircle2 size={15} />
               <span>Connect & View Portfolio</span>
             </button>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
